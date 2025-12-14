@@ -1,8 +1,8 @@
 {
-  "name": "my-app",
-  "productName": "my-app",
+  "name": "duplicate-image-remover",
+  "productName": "Duplicate Image Remover",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Intelligent duplicate image detection and removal using computer vision",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -11,7 +11,9 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
-    "build": "vite build && electron-builder"
+    "build": "vite build && electron-builder",
+    "backend": "python start_backend.py",
+    "backend:install": "pip install -r requirements.txt"
   },
   "repository": "https://github.com/Hazem12012/PhotoDeDupAI.git",
   "keywords": [],
