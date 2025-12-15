@@ -1,12 +1,12 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import DuplicateRemover from "./components/DuplicateRemover";
+import MainApp from "./components/MainApp";
 
 export default function App() {
   return (
     <>
-      <DuplicateRemover />
+      <MainApp />
     </>
   );
 }
