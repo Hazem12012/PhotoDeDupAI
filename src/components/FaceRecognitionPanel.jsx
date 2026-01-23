@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Users, Scan, Loader, FolderOutput, User, UsersRound, ImageOff } from 'lucide-react';
 
+console.log(ImageOff);
+
 const PersonGroup = ({ group, onNameChange }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customName, setCustomName] = useState(`Person_${group.person_id}`);
@@ -49,7 +51,6 @@ const PersonGroup = ({ group, onNameChange }) => {
                 {group.image_count} image{group.image_count > 1 ? 's' : ''}
             </div>
 
-            {/* Sample images grid */}
             <div className="grid grid-cols-3 gap-2">
                 {group.images.slice(0, 6).map((img, idx) => (
                     <div key={idx} className="aspect-square bg-black/30 rounded overflow-hidden">

@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import started from "electron-squirrel-startup";
 import path from "path";
 import fs from "fs";
+import { title } from "process";
 
 if (started) {
   app.quit();
@@ -17,8 +18,12 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
     },
     show: false,
+
     // frame: false,
-  });
+  }
+
+
+);
 
   mainWindow.once("ready-to-show", mainWindow.show);
 

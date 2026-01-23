@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -258,6 +256,7 @@ def analyze_duplicates():
     try:
         data = request.json
         directory = data.get('directory')
+
         ssim_threshold = float(data.get('ssim_threshold', 0.95))
         mse_threshold = float(data.get('mse_threshold', 20))
         custom_mode = data.get('custom', True)

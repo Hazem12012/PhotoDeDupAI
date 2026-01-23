@@ -330,7 +330,7 @@ const DuplicateRemover = () => {
                             ) : (
                                 <>
                                     <Search size={20} />
-                                    1. Scan Folder
+                                    Scan Folder
                                 </>
                             )}
                         </button>
@@ -348,7 +348,7 @@ const DuplicateRemover = () => {
                             ) : (
                                 <>
                                     <RefreshCw size={20} />
-                                    2. Analyze Duplicates
+                                    Analyze Duplicates
                                 </>
                             )}
                         </button>
@@ -366,7 +366,7 @@ const DuplicateRemover = () => {
                             ) : (
                                 <>
                                     <Trash2 size={20} />
-                                    3. Delete Selected ({selectedDuplicates.length})
+                                    Delete Selected ({selectedDuplicates.length})
                                 </>
                             )}
                         </button>
