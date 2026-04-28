@@ -1,5 +1,6 @@
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
+import urllib.parse
 from flask_cors import CORS
 from skimage.metrics import structural_similarity as ssim
 from collections import defaultdict
@@ -170,7 +171,7 @@ def detect_faces_in_image(image_path):
 def cluster_faces(face_data, tolerance=0.6):
     """Cluster face encodings using DBSCAN to group same people"""
     if not face_data:
-        return []
+        return {}
     
     # Collect all encodings and their image paths
     encodings = []
@@ -184,7 +185,7 @@ def cluster_faces(face_data, tolerance=0.6):
             face_indices.append(idx)
     
     if not encodings:
-        return []
+        return {}
     
     # Convert to numpy array
     encodings_array = np.array(encodings)
@@ -460,6 +461,7 @@ def detect_faces():
         
         process_status['running'] = True
         process_status['face_data'] = {}
+        process_status['face_directory'] = directory
         
         image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'}
         files = [f for f in os.listdir(directory) 
@@ -524,8 +526,9 @@ def analyze_faces():
         if not directory or not os.path.exists(directory):
             return jsonify({'error': 'Invalid directory'}), 400
         
-        # Use cached face data if available, otherwise detect
-        if not process_status.get('face_data'):
+        # Use cached face data if available for the same directory, otherwise detect
+        if not process_status.get('face_data') or process_status.get('face_directory') != directory:
+            print(f"Detecting faces for directory: {directory}")
             # Detect faces first
             image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'}
             files = [f for f in os.listdir(directory) 
@@ -541,6 +544,7 @@ def analyze_faces():
                     'face_count': len(locations)
                 }
             process_status['face_data'] = face_data
+            process_status['face_directory'] = directory
         
         # Cluster faces
         clusters = cluster_faces(process_status['face_data'], tolerance)
@@ -766,6 +770,24 @@ def rename_images():
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({'status': 'ok'})
+
+
+@app.route('/api/image', methods=['GET'])
+def get_image():
+    """Serve image files directly via GET"""
+    try:
+        image_path = request.args.get('path')
+        if not image_path:
+            return jsonify({'error': 'No path provided'}), 400
+            
+        image_path = urllib.parse.unquote(image_path)
+        
+        if not os.path.exists(image_path):
+            return jsonify({'error': 'Image not found'}), 404
+            
+        return send_file(image_path)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':

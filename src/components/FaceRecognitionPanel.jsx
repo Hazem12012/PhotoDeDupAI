@@ -55,7 +55,7 @@ const PersonGroup = ({ group, onNameChange }) => {
                 {group.images.slice(0, 6).map((img, idx) => (
                     <div key={idx} className="aspect-square bg-black/30 rounded overflow-hidden">
                         <img
-                            src={`http://127.0.0.1:5000/api/thumbnail`}
+                            src={`http://127.0.0.1:5000/api/image?path=${encodeURIComponent(img.path)}`}
                             alt={img.filename}
                             className="w-full h-full object-cover"
                             onError={(e) => {
